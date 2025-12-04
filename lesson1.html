@@ -2,46 +2,103 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Урок 1</title>
+  <title>Урок 1 — видеокурс</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #000;
+    * {
+      box-sizing: border-box;
     }
-
-    .wrapper {
+    body {
+      margin: 0;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #000;
+      background: #05060a;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: #f5f5f5;
+      user-select: none;       /* запрет выделения */
     }
-
-    .player {
+    .wrapper {
       width: 100%;
-      max-width: 960px;      /* чтобы не было слишком широко на больших экранах */
-      aspect-ratio: 16 / 9;  /* сохраняем пропорции видео */
+      max-width: 960px;
+      padding: 16px;
     }
-
-    .player iframe {
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      text-align: left;
+    }
+    .video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+    }
+    .video-frame iframe {
       width: 100%;
       height: 100%;
-      border: 0;
+      border: none;
+      display: block;
+    }
+    .note {
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: 0.6;
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
-    <div class="player">
+    <h1>Урок 1. Видеокурс</h1>
+
+    <div class="video-frame">
       <iframe
         src="https://rutube.ru/play/embed/e0b28ca6c562b345750e0f9a9ee11475"
         allow="clipboard-write; autoplay"
-        allowfullscreen>
-      </iframe>
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <div class="note">
+      Воспроизведение доступно только для участников курса. 
+      Скачивание и копирование ссылки ограничены.
     </div>
   </div>
+
+  <script>
+    // Запрет правой кнопки мыши
+    document.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+    });
+
+    // Запрет перетаскивания
+    document.addEventListener("dragstart", function (e) {
+      e.preventDefault();
+    });
+
+    // Блокируем часть сочетаний клавиш (Ctrl+S, Ctrl+U, Ctrl+P, Ctrl+Shift+I)
+    document.addEventListener("keydown", function (e) {
+      const key = e.key.toLowerCase();
+
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (key === "s" || key === "u" || key === "p")
+      ) {
+        e.preventDefault();
+      }
+
+      if (e.ctrlKey && e.shiftKey && key === "i") {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
