@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Урок 1. Видеокурс</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #fff;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 960px;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 12px;
+    }
+    video {
+      width: 100%;
+      border-radius: 12px;
+      background: #000;
+      outline: none;
+    }
+    .note {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Урок 1. Видеокурс</h1>
+    <video id="lessonVideo" controls playsinline></video>
+    <p class="note">
+      Воспроизведение доступно только участникам курса. Скачивание и прямой доступ к файлам ограничены.
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById('lessonVideo');
+    const src = 'lesson1/lesson1.m3u8';
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({ maxMaxBufferLength: 60 });
+      hls.loadSource(src);
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      // Safari
+      video.src = src;
+    } else {
+      alert('Ваш браузер не поддерживает HLS-видео. Попробуйте другой браузер.');
+    }
+
+    // Блокируем правую кнопку (контекстное меню)
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    // Лёгкая защита от Ctrl/Cmd+S, Ctrl/Cmd+P, Ctrl/Cmd+U
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && ['s', 'S', 'p', 'P', 'u', 'U'].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
